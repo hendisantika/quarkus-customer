@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -33,5 +34,10 @@ public class CustomerService {
                 .map(customerMapper::toDomain)
                 .collect(Collectors.toList());
     }
+
+    public Optional<Customer> findById(Integer customerId) {
+        return customerRepository.findByIdOptional(customerId).map(customerMapper::toDomain);
+    }
+
 
 }
