@@ -72,4 +72,27 @@ class CustomerResourceTest {
                 .statusCode(400);
     }
 
+    @Test
+    public void put() {
+        Customer customer = createCustomer();
+        Customer saved = given()
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .body(customer)
+                .post("/api/customers")
+                .then()
+                .statusCode(201)
+                .extract().as(Customer.class);
+        saved.setFirstName("Updated");
+        Customer updated = given()
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .body(saved)
+                .put("/api/customers")
+                .then()
+                .statusCode(200)
+                .extract().as(Customer.class);
+        assertThat(updated.getFirstName()).isEqualTo("Updated");
+    }
+
 }
