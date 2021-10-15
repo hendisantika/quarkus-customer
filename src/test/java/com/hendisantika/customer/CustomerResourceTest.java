@@ -45,4 +45,18 @@ class CustomerResourceTest {
         assertThat(saved).isEqualTo(got);
     }
 
+    @Test
+    public void post() {
+        Customer customer = createCustomer();
+        Customer saved = given()
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .body(customer)
+                .post("/api/customers")
+                .then()
+                .statusCode(201)
+                .extract().as(Customer.class);
+        assertThat(saved.getCustomerId()).isNotNull();
+    }
+
 }
