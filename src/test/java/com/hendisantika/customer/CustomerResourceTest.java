@@ -1,9 +1,11 @@
 package com.hendisantika.customer;
 
 import io.quarkus.test.junit.QuarkusTest;
+import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,4 +25,24 @@ class CustomerResourceTest {
                 .then()
                 .statusCode(200);
     }
+
+    @Test
+    public void getById() {
+        Customer customer = createCustomer();
+        Customer saved = given()
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .body(customer)
+                .post("/api/customers")
+                .then()
+                .statusCode(201)
+                .extract().as(Customer.class);
+        Customer got = given()
+                .when().get("/api/customers/{customerId}", saved.getCustomerId())
+                .then()
+                .statusCode(200)
+                .extract().as(Customer.class);
+        assertThat(saved).isEqualTo(got);
+    }
+
 }
