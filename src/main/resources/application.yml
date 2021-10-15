@@ -1,0 +1,54 @@
+hendisantika:
+  openapi:
+    extensions:
+      smallrye:
+        info:
+          title: Customer API
+          version: 0.0.1
+          description: API for retrieving customers
+          contact:
+            email: techsupport@rhenergy.dev
+            name: Customer API Support
+            url: https://linktr.ee/hendisantika
+          license:
+            name: Apache 2.0
+            url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+quarkus:
+  banner:
+    enabled: false
+  datasource:
+    db-kind: postgresql
+    devservices:
+      image-name: postgres:14
+  hibernate-orm:
+    database:
+      generation: none
+
+"%dev":
+  quarkus:
+    log:
+      level: INFO
+      category:
+        "dev.hendisantika":
+          level: DEBUG
+    hibernate-orm:
+      log:
+        sql: true
+    flyway:
+      migrate-at-start: true
+      locations: db/migration,db/testdata
+
+"%test":
+  quarkus:
+    log:
+      level: INFO
+      category:
+        "dev.rhenergy":
+          level: DEBUG
+    hibernate-orm:
+      log:
+        sql: true
+    flyway:
+      migrate-at-start: true
+      locations: db/migration,db/testdata
