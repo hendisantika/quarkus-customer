@@ -2,6 +2,7 @@ package com.hendisantika.customer;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
@@ -114,5 +115,15 @@ class CustomerResourceTest {
                 .put("/api/customers")
                 .then()
                 .statusCode(400);
+    }
+
+    private Customer createCustomer() {
+        Customer customer = new Customer();
+        customer.setFirstName(RandomStringUtils.randomAlphabetic(10));
+        customer.setMiddleName(RandomStringUtils.randomAlphabetic(10));
+        customer.setLastName(RandomStringUtils.randomAlphabetic(10));
+        customer.setEmail(RandomStringUtils.randomAlphabetic(10) + "@rhenergy.dev");
+        customer.setPhone(RandomStringUtils.randomNumeric(10));
+        return customer;
     }
 }
