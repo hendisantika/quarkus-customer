@@ -1,6 +1,9 @@
 package com.hendisantika.customer;
 
 import io.quarkus.test.junit.QuarkusTest;
+import org.junit.jupiter.api.Test;
+
+import static io.restassured.RestAssured.given;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,5 +16,11 @@ import io.quarkus.test.junit.QuarkusTest;
  */
 @QuarkusTest
 class CustomerResourceTest {
-
+    @Test
+    public void getAll() {
+        given()
+                .when().get("/api/customers")
+                .then()
+                .statusCode(200);
+    }
 }
