@@ -1,5 +1,6 @@
 package com.hendisantika.customer;
 
+import org.hibernate.service.spi.ServiceException;
 import org.slf4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -47,4 +48,23 @@ public class CustomerService {
         return customerMapper.toDomain(entity);
     }
 
+    @Transactional
+    public Customer update(Customer customer) {
+        if (customer.getCustomerId() == null) {
+            throw new ServiceException("Customer does not have a customerId");
+        }
+        Optional<CustomerEntity> optional = customerRepository.findByIdOptional(customer.getCustomerId());
+        if (optional.isEmpty()) {
+            throw new ServiceException(String.format("No Customer found for customerId[%s]", customer.getCustomerId()));
+        }
+        CustomerEntity entity = optional.get();
+        entity.setFirstName(customer.getFirstName());
+        entity.setMiddleName(customer.getMiddleName());
+        entity.setLastName(customer.getLastName());
+        entity.setSuffix(customer.getSuffix());
+        entity.setEmail(customer.getEmail());
+        entity.setPhone(customer.getPhone());
+        customerRepository.persist(entity);
+        return customerMapper.toDomain(entity);
+    }
 }
