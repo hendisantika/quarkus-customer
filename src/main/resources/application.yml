@@ -46,7 +46,7 @@ quarkus:
     log:
       level: INFO
       category:
-        "dev.rhenergy":
+        "dev.hendisantika":
           level: DEBUG
     hibernate-orm:
       log:
