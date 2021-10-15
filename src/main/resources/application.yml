@@ -7,7 +7,7 @@ hendisantika:
           version: 0.0.1
           description: API for retrieving customers
           contact:
-            email: techsupport@rhenergy.dev
+            email: hendisantika@yahoo.co.id
             name: Customer API Support
             url: https://linktr.ee/hendisantika
           license:
@@ -19,6 +19,8 @@ quarkus:
     enabled: false
   datasource:
     db-kind: postgresql
+    username: user
+    password: password
     devservices:
       image-name: postgres:14
   hibernate-orm:
