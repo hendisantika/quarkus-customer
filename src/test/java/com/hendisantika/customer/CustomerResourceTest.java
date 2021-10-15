@@ -59,4 +59,17 @@ class CustomerResourceTest {
         assertThat(saved.getCustomerId()).isNotNull();
     }
 
+    @Test
+    public void postFailNoFirstName() {
+        Customer customer = createCustomer();
+        customer.setFirstName(null);
+        given()
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .body(customer)
+                .post("/api/customers")
+                .then()
+                .statusCode(400);
+    }
+
 }
