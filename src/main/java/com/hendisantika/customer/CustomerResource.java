@@ -8,8 +8,10 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.slf4j.Logger;
 
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -73,4 +75,22 @@ public class CustomerResource {
                 Response.status(Response.Status.NOT_FOUND).build();
     }
 
+    @POST
+    @APIResponses(
+            value = {
+                    @APIResponse(
+                            responseCode = "201",
+                            description = "Customer Created",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(type = SchemaType.OBJECT, implementation = Customer.class))),
+                    @APIResponse(
+                            responseCode = "400",
+                            description = "Customer already exists for customerId",
+                            content = @Content(mediaType = "application/json")),
+            }
+    )
+    public Response post(@Valid Customer customer) {
+        final Customer saved = customerService.save(customer);
+        return Response.status(Response.Status.CREATED).entity(saved).build();
+    }
 }
