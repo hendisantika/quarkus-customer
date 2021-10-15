@@ -95,4 +95,24 @@ class CustomerResourceTest {
         assertThat(updated.getFirstName()).isEqualTo("Updated");
     }
 
+    @Test
+    public void putFailNoLastName() {
+        Customer customer = createCustomer();
+        Customer saved = given()
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .body(customer)
+                .post("/api/customers")
+                .then()
+                .statusCode(201)
+                .extract().as(Customer.class);
+        saved.setLastName(null);
+        given()
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .body(saved)
+                .put("/api/customers")
+                .then()
+                .statusCode(400);
+    }
 }
