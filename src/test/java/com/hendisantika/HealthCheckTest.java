@@ -25,4 +25,13 @@ public class HealthCheckTest {
                 .statusCode(200)
                 .body("status", Matchers.equalTo("UP"));
     }
+
+    @Test
+    public void getDatasourceHealth() {
+        given()
+                .when().get("/health/ready")
+                .then()
+                .statusCode(200)
+                .body("status", Matchers.equalTo("UP"));
+    }
 }
